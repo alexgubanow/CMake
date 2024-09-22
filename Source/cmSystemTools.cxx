@@ -99,10 +99,6 @@
 #  include <io.h>
 #endif
 
-#if defined(__MVS__)
-# include "os390-syscalls.h"
-#endif /* __MVS__ */
-
 #if defined(__APPLE__)
 #  include <mach-o/dyld.h>
 #endif
@@ -118,6 +114,67 @@
 #if defined(_MSC_VER) && _MSC_VER >= 1800
 #  define CM_WINDOWS_DEPRECATED_GetVersionEx
 #endif
+
+#if defined(__MVS__)
+char* mkdtemp(char* path) {
+  static const char* tempchars =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  static const size_t num_chars = 62;
+  static const size_t num_x = 6;
+  char *ep, *cp;
+  unsigned int tries, i;
+  size_t len;
+  uint64_t v;
+  int fd;
+  int retval;
+  int saved_errno;
+
+  len = strlen(path);
+  ep = path + len;
+  if (len < num_x || strncmp(ep - num_x, "XXXXXX", num_x)) {
+    errno = EINVAL;
+    return NULL;
+  }
+
+  fd = open("/dev/urandom", O_RDONLY);
+  if (fd == -1)
+    return NULL;
+
+  tries = TMP_MAX;
+  retval = -1;
+  do {
+    if (read(fd, &v, sizeof(v)) != sizeof(v))
+      break;
+
+    cp = ep - num_x;
+    for (i = 0; i < num_x; i++) {
+      *cp++ = tempchars[v % num_chars];
+      v /= num_chars;
+    }
+
+    if (mkdir(path, S_IRWXU) == 0) {
+      retval = 0;
+      break;
+    }
+    else if (errno != EEXIST)
+      break;
+  } while (--tries);
+
+  saved_errno = errno;
+  close(fd);
+  if (tries == 0) {
+    errno = EEXIST;
+    return NULL;
+  }
+
+  if (retval == -1) {
+    errno = saved_errno;
+    return NULL;
+  }
+
+  return path;
+}
+#endif /* __MVS__ */
 
 namespace {
 
