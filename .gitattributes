@@ -10,12 +10,12 @@
 # Do not perform whitespace checks.  Do not format.
 [attr]generated  whitespace=-tab-in-indent,-indent-with-non-tab -format.clang-format
 
-bootstrap        eol=lf
-configure        eol=lf
+bootstrap        eol=lf zos-working-tree-encoding=IBM-1047
+configure        eol=lf zos-working-tree-encoding=IBM-1047
 *.[1-9]          eol=lf
-*.bash           eol=lf
-*.sh             eol=lf
-*.sh.in          eol=lf
+*.bash           eol=lf zos-working-tree-encoding=IBM-1047
+*.sh             eol=lf zos-working-tree-encoding=IBM-1047
+*.sh.in          eol=lf zos-working-tree-encoding=IBM-1047
 
 *.bat            eol=crlf
 *.bat.in         eol=crlf
@@ -26,18 +26,18 @@ configure        eol=lf
 *.png            -text
 *.png.in         -text
 
-*.c              our-c-style
-*.cc             our-c-style
-*.cpp            our-c-style
-*.cu             our-c-style
-*.cxx            our-c-style
-*.h              our-c-style
-*.hh             our-c-style
-*.hpp            our-c-style
-*.hxx            our-c-style
-*.notcu          our-c-style
-*.tcc            our-c-style
+*.c              our-c-style zos-working-tree-encoding=UTF-8
+*.cc             our-c-style zos-working-tree-encoding=UTF-8
+*.cpp            our-c-style zos-working-tree-encoding=UTF-8
+*.cu             our-c-style zos-working-tree-encoding=UTF-8
+*.cxx            our-c-style zos-working-tree-encoding=UTF-8
+*.h              our-c-style zos-working-tree-encoding=UTF-8
+*.hh             our-c-style zos-working-tree-encoding=UTF-8
+*.hpp            our-c-style zos-working-tree-encoding=UTF-8
+*.hxx            our-c-style zos-working-tree-encoding=UTF-8
+*.notcu          our-c-style zos-working-tree-encoding=UTF-8
+*.tcc            our-c-style zos-working-tree-encoding=UTF-8
 
-*.cmake          whitespace=tab-in-indent
+*.cmake          whitespace=tab-in-indent zos-working-tree-encoding=IBM-1047
 *.rst            whitespace=tab-in-indent conflict-marker-size=79
-*.txt            whitespace=tab-in-indent
+*.txt            whitespace=tab-in-indent zos-working-tree-encoding=IBM-1047
