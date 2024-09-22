@@ -99,6 +99,10 @@
 #  include <io.h>
 #endif
 
+#if defined(__MVS__)
+# include "os390-syscalls.h"
+#endif /* __MVS__ */
+
 #if defined(__APPLE__)
 #  include <mach-o/dyld.h>
 #endif
