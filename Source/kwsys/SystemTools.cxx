@@ -85,7 +85,9 @@
 #  include <unistd.h>
 #  include <utime.h>
 #  ifndef __VMS
+#  ifndef __MVS__
 #    include <sys/param.h>
+#  endif
 #    include <termios.h>
 #  endif
 #  include <csignal> /* sigprocmask */
